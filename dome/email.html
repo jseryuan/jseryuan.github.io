@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.ok{border-color: green;}
+		.err{border-color: red;}
+	</style>
+	<script>
+		window.onload=function(){
+			var oForm=document.getElementById('form1');
+			var aInp=oForm.getElementsByTagName('input');
+			
+
+			function clcik(obj){
+				var reg={
+					email:/^\w+\@[a-zA-Z0-9]{2,8}(\.[a-zA-Z0-9]{2,8}){1,2}$/g,
+					phone:/^(0[1-9]\d{1,2}-)?[1-9]\d{6,7}$/g,
+					mobil:/^1[3578](\d{9})$/
+				};
+				var re=reg[obj.name];
+				var bOk=false;
+				if(re){
+					if(re.test(obj.value)){
+						obj.className='ok';
+					}else{
+						obj.className='err';
+						bOk=true;
+					}
+				}
+				return bOk;
+			}
+			for(var i=0;i<aInp.length;i++){
+				aInp[i].onblur=function(){
+					clcik(this);
+				};	
+			}
+			oForm.onsubmit=function(){
+				var bOk=false;
+				for(var i=0;i<aInp.length;i++){
+					if(clcik(aInp[i])){
+						bOk=true;
+					}
+				}
+				if(bOk){
+					return false;
+				}
+			};
+
+		};
+	</script>
+</head>
+<body>
+	<form action="http:www.baidu.com" id="form1">
+		邮箱：<input type="text" name="email" id="email" placeholder="请输入邮箱地址"><br><br>
+		电话：<input type="text" name="phone" id="phone" placeholder="请输入电话号码"><br><br>
+		手机：<input type="text" name="mobil" id="mobil" placeholder="请输入手机号码"><br><br>
+		<input type="submit" value="提交" id="submit">
+	</form>
+</body>
+</html>

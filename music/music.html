@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{margin: 0;padding: 0; list-style: none;}
+		body{
+			width: 100%;
+			height: 100%;
+			background: -webkit-radial-gradient(right center,circle,blue 10%,rgba(127,104,85,1) 80%);
+			background: -moz-radial-gradient(right center,circle,blue 10%,rgba(127,104,85,1) 80%);
+			background: -ms-radial-gradient(right center,circle,blue 10%,rgba(127,104,85,1) 80%);
+		}
+		.header{
+			color: orange;
+			margin-top:30px;
+			width: 100%;
+			text-align: center;
+		}
+		#mp3{
+			color: #fff;
+			width: 200px;
+			margin: 25px 20px;
+			color: orange;
+		}
+		#mp3 ul{
+			margin-top: 50px;
+			margin-left: 50px;
+		}
+		#mp3 li{
+			width: 500px;
+			height: 60px;
+			line-height: 60px;
+			border-bottom: 2px solid rgba(127,104,85,1);
+			padding-left: 40px;
+		}
+		#mp3 li:hover{
+			-webkit-box-shadow:0 0 18px #fff;
+			-moz-box-shadow:0 0 18px #fff;
+			box-shadow:0 0 18px #fff;
+		}
+		#mp3 .on{
+			color: #fff;
+		}
+		#box{
+			width: 800px;
+			height: 200px;
+			position: absolute;
+			top: 400px;
+			left: 200px;
+		}
+		#box ul{
+			width:168px;
+			position: absolute;
+			top: 84px;
+			left: 10px;
+		}
+		#box ul li{
+			float:left; 
+			cursor:pointer;
+		}
+		#center{
+			width:20px; 
+			height:24px; 
+			margin:0 42px 0 50px;
+			position:relative;
+		}
+		#center span{
+			position:absolute;
+			top:0; 
+			left:0;
+		}
+		#c1{
+			border:16px solid transparent;
+			border-left:16px solid #e8e6e3;
+			 margin-top:-3px;
+		}
+		#c2{
+			width:20px;
+		 	height:24px; 
+		    background:-webkit-linear-gradient(left,#e8e6e3 40%,#836e5c 40%,#836e5c 60%,#e8e6e3 60%);
+		    background:-moz-linear-gradient(left,#e8e6e3 40%,#836e5c 40%,#836e5c 60%,#e8e6e3 60%);
+		    display:none; 
+		    margin-left:-3px;  
+		    background:-ms-linear-gradient(left,#e8e6e3 40%,#8d8175 40%,#8d8175 60%,#e8e6e3 60%);
+		}
+		#before{
+			border:14px solid transparent; 
+			border-right:14px solid #eee; 
+			float:left; 
+			border-radius:5px;
+		}
+		#next{
+			border:14px solid transparent; 
+			border-left:14px solid #eee; 
+			float:right; 
+			border-radius:5px;
+		}
+		#progress{
+			width: 400px;
+			height: 3px;
+			background: #fff;
+			position: absolute;
+			top: 100px;
+			left: 210px;
+		}
+		#progress #curr{
+			display: block;
+			width: 0%;
+			height: 100%;
+			background: skyblue;
+		}
+		#progress #cursor{
+			display: block;
+			position: absolute;
+			top: -6px;
+			left: 0;
+			width: 15px;
+			height: 15px;
+			background: #fff;
+			border-radius: 50%;
+			cursor: pointer;
+		}
+		#volume{
+			width: 100px;
+			position: absolute;
+			top: 150px;
+			left: 210px;
+			color: yellow;
+		}
+		#muted{
+			width: 50px;
+			position: absolute;
+			top: 150px;
+			left: 350px;
+			color: yellow;
+			cursor: pointer;
+		}
+		#mode{
+			width: 80px;
+			position: absolute;
+			top: 150px;
+			left: 420px;
+			color: yellow;
+			cursor: pointer;
+		}
+		#picture{
+			border-radius: 50%;
+			overflow: hidden;
+			width: 300px;
+			height: 300px;
+			position: absolute;
+			right: 160px;
+			top: 85px;
+			transform: rotate(0deg);	
+		}
+		#picture img{
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+	<script>
+		window.onload=function(){
+
+			if(navigator.userAgent.indexOf('MSIE')!=-1){
+				alert('使用IE浏览器会影响您的体验，请升级浏览器');
+			}
+			var oA=document.getElementById('a1');
+			var aLi=document.querySelectorAll('#mp3 ul li');
+			var oCurr=document.getElementById('curr');
+			var oCursor=document.getElementById('cursor');
+			var oRan=document.getElementById('ran');
+			var oMut=document.getElementById('muted');
+			var oMode=document.getElementById('mode');
+			var oPlay=document.getElementById('center');
+			var oBef=document.getElementById('before');
+			var oNext=document.getElementById('next');
+			var oPicture=document.getElementById('picture');
+			var iR=0;
+			var iNow=0;
+			var iMod=0;
+			var x=0;
+
+			
+			//播放暂停
+			oPlay.onclick=function(){
+				if(oA.paused){
+					oA.play();
+					oPlay.children[0].style.display='none';
+					oPlay.children[1].style.display='block';
+					clearInterval(oPicture.timer);
+					oPicture.timer=setInterval(function(){
+						iR++;
+						oPicture.style.transform='rotate('+iR%360+'deg)';
+					},16);
+				}else{
+					oA.pause();
+					oPlay.children[1].style.display='none';
+					oPlay.children[0].style.display='block';
+					clearInterval(oPicture.timer);
+				}
+			};
+
+
+			//进度条
+			oA.ontimeupdate=function(){
+				var scale=oA.currentTime/oA.duration;
+				oCurr.style.width=scale*100+'%';
+				oCursor.style.left=scale*393+'px';
+				x=oCursor.offsetLeft;
+				
+			};
+			oCursor.onmousedown=function(ev){
+				var oEvent=ev || event;
+				var disX=oEvent.clientX-x;
+				document.onmousemove=function(ev){
+					var oEvent=ev || event;
+					x=oEvent.clientX-disX;
+					if(x<0){
+						x=0;
+					}else if(x>393){
+						x=393;
+					}
+					var scale=x/393;
+					oA.currentTime=oA.duration*scale;
+					oCurr.style.width=scale*100+'%';
+					oCursor.style.left=x+'px';
+
+				};
+				document.onmouseup=function(){
+					document.onmousemove=null;
+					document.onmouseup=null;
+					oCursor.removeCapture&&oCursor.removeCapture();
+				};
+				return false;
+				oCursor.setCapture&&oCursor.setCapture();
+			};
+			//音量
+			oRan.onchange=function(){
+				oA.volume=this.value/100;
+			};
+			//静音
+			oMut.onclick=function(){
+				if(oA.muted){
+					oA.muted=false;
+					oMut.style.color='yellow';
+				}else{
+					oA.muted=true;
+					oMut.style.color='red';
+				}
+				return false;
+			};
+			//播放方式
+			oMode.onclick=function(){
+				iMod++;
+				if(iMod==4){iMod=0;}
+				switch(iMod){
+					case 0:
+						oMode.innerHTML='单曲循环';
+						break;
+					case 1:
+						oMode.innerHTML='列表播放';
+						break;
+					case 2:
+						oMode.innerHTML='随机播放';
+						break;
+					case 3:
+						oMode.innerHTML='列表循环';
+						break;
+				}
+				return false;
+			};
+			//双击播放
+			for(var i=0;i<aLi.length;i++){
+				aLi[i].index=i;
+				aLi[i].ondblclick=function(){
+					iNow=this.index;
+					play();
+					return false;
+				};
+			}
+			//结束判断
+			oA.onended=function(){
+				switch(iMod){
+					case 0:
+						play();
+						break;
+					case 1:
+						if(iNow==aLi.length-1){
+							alert('播放完毕');
+							oPlay.children[1].style.display='none';
+							oPlay.children[0].style.display='block';
+							clearInterval(oPicture.timer);
+						}else{
+							iNow++;
+							play();
+						}
+						break;
+					case 2:
+						iNow=parseInt(Math.random()*(aLi.length));
+						play();
+						break;
+					case 3:
+						iNow++;
+						if(iNow==aLi.length){
+							iNow=0;
+						}
+						play();
+						break;
+				}
+			};
+			//播放函数
+			function play(){
+				for(var i=0;i<aLi.length;i++){
+					aLi[i].className='';
+				}
+				aLi[iNow].className='on';
+				var str=aLi[iNow].innerHTML;
+				oA.src='mp3/'+str+'.mp3';
+				oA.play();
+				oPlay.children[0].style.display='none';
+				oPlay.children[1].style.display='block';
+				clearInterval(oPicture.timer);
+				oPicture.timer=setInterval(function(){
+					iR++;
+					oPicture.style.transform='rotate('+iR%360+'deg)';
+				},16);
+			}
+			//上一曲，下一曲
+			oBef.onclick=function(){
+				iNow--;
+				if(iNow==-1){
+					iNow=aLi.length-1;
+				}
+				play();
+			};
+			oNext.onclick=function(){
+				iNow++;
+				if(iNow==aLi.length){
+					iNow=0;
+				}
+				play();
+			};
+
+		};
+	</script>
+</head>
+<body>
+	<h2 class="header">我的音乐盒</h2>
+	<div id="mp3">
+		<ul>
+			<li class="on">千千阙歌</li>
+			<li>时间都去哪儿了</li>
+			<li>小苹果</li>
+			<li>夜的钢琴曲</li>
+			<li>雨的印记</li>
+		</ul>
+	</div>
+	<audio src="mp3/千千阙歌.mp3" id="a1" ></audio>
+	<div id="box">
+		<ul class="clearfix">
+			<li id="before"></li>
+			<li id="center">
+				<span id="c1"></span>
+				<span id="c2"></span>
+			</li>
+			<li id="next"></li>
+		</ul>
+		<div id="progress">
+			<span id="curr"></span>
+			<span id="cursor"></span>
+		</div>
+		<div id="volume">音量：<input type="range" name="" value="100" id="ran"></div>
+		<div id="muted">静音</div>
+		<div id="mode">单曲循环</div>
+	</div>
+	<div id="picture">
+		<img src="img/1.jpg">
+	</div>
+</body>
+</html>
