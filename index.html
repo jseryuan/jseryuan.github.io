@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Swiper demo</title>
+    <title>jseryuan的个人站</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="stylesheets/swiper.min.css">
     <link rel="stylesheet" href="stylesheets/base.css">
+    <link rel="stylesheet" href="stylesheets/animate.css">
 
     <!-- Demo styles -->
     <style>
@@ -18,7 +19,7 @@
         overflow: hidden;
     }
     body {
-        background: radial-gradient(ellipse farthest-corner at center top, #000d4d 0%, #000105 100%);;
+        background: radial-gradient(ellipse farthest-corner at center top, #000d4d 0%, #000105 100%);
         font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
         font-size: 14px;
         color:#000;
@@ -40,6 +41,7 @@
         text-align: center;
         font-size: 18px;
         color: #fff;
+        position: relative;
 
         /* Center slide text vertically */
         display: -webkit-box;
@@ -76,6 +78,83 @@
         display: block;
         color: #fff;
     }
+    #dome{
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin:-150px 0 0 -150px;
+    }
+    #dome li{
+        width:300px;
+        height:300px;
+        position: absolute;
+        left:0;
+        top: 0;
+        background: skyblue;
+        font-size:50px;
+        color: #fff;
+        line-height: 300px;
+        text-align: center;
+        border: 1px solid #000;
+        transition:0.4s all ease;
+        transform:perspective(800px) translateX(0px) rotateY(0deg);
+    }
+    #dome li a{
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+    #dome li img{
+        width: 100%;
+        height: 100%;
+    }
+    #dome li.cur{
+        z-index: 5;
+    }
+    #dome li.l1{
+        transform:perspective(800px) translateX(-200px) rotateY(60deg);
+        opacity:0.8;
+        z-index:3;
+    }
+    #dome li.l2{
+        transform:perspective(800px) translateX(-300px) rotateY(60deg);
+        opacity:0;
+        z-index:1;
+    }
+
+    #dome li.r1{
+        transform:perspective(800px) translateX(200px) rotateY(-60deg);
+        opacity:0.8;
+        z-index:3;
+    }
+    #dome li.r2{
+        transform:perspective(800px) translateX(300px) rotateY(-60deg);
+        opacity:0;
+        z-index:1;
+    }
+    #toLeft{
+        position: absolute;
+        top: 250px;
+        left: 210px;
+        width: 0;
+        height: 0;
+        border: 50px solid transparent;
+        border-right: 50px solid skyblue;
+        z-index: 5;
+    }
+    #toRight{
+        position: absolute;
+        top: 250px;
+        right: 210px;
+        width: 0;
+        height: 0;
+        border: 50px solid transparent;
+        border-left: 50px solid skyblue;
+        z-index: 5;
+    }
+    
     </style>
     <!-- Swiper JS -->
     <script src="javascripts/swiper.min.js"></script>
@@ -84,7 +163,7 @@
     <!-- Initialize Swiper -->
     <script>
         document.addEventListener('DOMContentLoaded',function(){
-            //轮播图
+            //大轮播图
             var oNav=document.getElementById('nav');
             var aLi=oNav.children;
 
@@ -102,11 +181,6 @@
                     aLi[a.activeIndex].className='cur';
                 }
             });
-            //侧边栏
-            function change(){
-
-            }
-            
             for(var i=0;i<aLi.length;i++){
                 aLi[i].index=i;
                 aLi[i].onclick=function(){
@@ -122,7 +196,33 @@
             //关于我
 
             //技能
-
+            //作品轮播图
+            function tab(oBtn1,oBtn2,oUl){
+                var aLi =oUl.children;
+                var aClass = [];
+                for(var i = 0;i<aLi.length;i++){
+                    aClass.push(aLi[i].className);
+                }
+                oBtn1.onclick = function () {
+                    aClass.push(aClass.shift());
+                    for(var i = 0;i<aLi.length;i++){
+                        aLi[i].className = aClass[i];
+                    }
+                };
+                oBtn2.onclick = function () {
+                    aClass.unshift(aClass.pop());
+                    for(var i = 0;i<aLi.length;i++){
+                        aLi[i].className = aClass[i];
+                    }
+                };
+            }
+            (function(){
+                var oBtn1=document.getElementById('toLeft');
+                var oBtn2=document.getElementById('toRight');
+                var oUl=document.getElementById('dome');
+                tab(oBtn1,oBtn2,oUl);
+            })();
+            
 
         },false);
         
@@ -131,28 +231,28 @@
 <body>
     <canvas id="canv"></canvas>
     <!-- nav -->
-    <ul class="nav" id="nav">
+    <ul class="nav animated bounceInLeft" id="nav">
         <li class="cur">
             <span>首页</span>
             <span>HOME</span>
         </li> 
-        <li>
+        <!-- <li>
             <span>关于我</span>
             <span>ABOUT ME</span>
         </li> 
         <li>
             <span>技能</span>
             <span>SKILLS</span>
-        </li> 
+        </li>  -->
         <li>
             <span>作品</span>
             <span>WORKS</span>
         </li> 
         
-        <li>
-            <span>笔记</span>
-            <span>NOTE</span>
-        </li> 
+        <!-- <li>
+             <span>笔记</span>
+             <span>NOTE</span>
+         </li> --> 
         <li>
             <span>联系</span>
             <span>CONTACT</span>
@@ -161,17 +261,40 @@
     <!-- Swiper -->
     <div class="swiper-container" id="div1">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <div id="picture"></div>
-                <h2>Jseryuan的老巢</h2>
+            <div class="swiper-slide page1">
+                <h2 class="animated bounceInDown">Jseryuan的老巢</h2>
             </div>
             <div class="swiper-slide">Slide 2</div>
             <div class="swiper-slide">
-
+                <div id="toLeft"></div>
+                <div id="toRight"></div>
+                <ul id="dome">
+                    <li class="l2">
+                        <a href="">
+                            <img src="images/cube.png">
+                        </a>
+                    </li>
+                    <li class="l1">3d图片环</li>
+                    <li class="cur">
+                        <a href="">
+                            <img src="images/music.png">
+                        </a>
+                    </li>
+                    <li class="r1">
+                        <a href="">
+                            <img src="images/fish.png">
+                        </a>
+                    </li>
+                    <li class="r2">
+                        <a href="">
+                            <img src="images/line.png">
+                        </a>
+                    </li>
+                </ul>
             </div>
-            <div class="swiper-slide">Slide 4</div>
+            <!-- <div class="swiper-slide">Slide 4</div>
             <div class="swiper-slide">Slide 5</div>
-            <div class="swiper-slide">Slide 6</div>
+            <div class="swiper-slide">Slide 6</div> -->
         </div>
     
     </div>

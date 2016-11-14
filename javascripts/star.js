@@ -296,7 +296,7 @@ var trans = {
   Build.prototype.run = function() {
     this.anim();
 
-    window.addEventListener('mousemove', function(e) {
+    /*window.addEventListener('mousemove', function(e) {
       this.toX = (e.clientX - this.canvas.width / 2) * -0.8;
       this.toY = (e.clientY - this.canvas.height / 2) * 0.8;
     }.bind(this));
@@ -304,7 +304,7 @@ var trans = {
       e.preventDefault();
       this.toX = (e.touches[0].clientX - this.canvas.width / 2) * -0.8;
       this.toY = (e.touches[0].clientY - this.canvas.height / 2) * 0.8;
-    }.bind(this));
+    }.bind(this));*/
     window.addEventListener('mousedown', function(e) {
       for (var i = 0; i < 10; i++) {
         this.add();
