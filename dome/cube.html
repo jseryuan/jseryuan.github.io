@@ -1,71 +1,116 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<style>
+	<meta charset="UTF-8">
+	<title>dome</title>
+    <link rel="stylesheet" href="css/base.css">
 
-    *{
-        margin: 0;
-        padding: 0;
-    }
-    body{
-        background: #ccc;
-    }
-    #box{
-        width: 200px;
-        height: 200px;
-        margin:150px auto;
-        position:relative;
-        transform: perspective(800px) rotateY(-60deg) rotateX(30deg);
-        transform-style:preserve-3d;
-        line-height: 200px;
-        text-align: center;
-        color: #fff;
-        font-size:50px;
-    }
-    #box div{
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        opacity:0.8;
-    }
-    #box .front{
-        background: red;
-        transform:translateZ(100px);
+	<style>
+		html,body{
+			background: #20181f;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+		header{
+			position: fixed;
+			top: 0;
+			left: 0;
+			height: 90px;
+			width: 100%;
+			z-index: 5;
+			background: #20181f;
+			line-height: 90px;
+			font-size: 30px;
+			color: #fff;
+		}
+		.logo{
+			float: left;
+			margin-left: 100px;
+			width: 100px;
+			text-align: center;
+		}
+		.title{
+			width: 100px;
+			text-align: center;
+			float: left;
+			height:90px;
+			position: absolute;
+			top: 0;
+			left: 50%;
+			margin-left: -50px;
+		}
+		._back{
+			width: 100px;
+			height: 50px;
+			line-height: 50px;
+			text-align: center;
+			float: right;
+			margin-right: 100px;
+			margin-top: 20px;
+			-webkit-box-shadow:0 0 18px #fff;
+			-moz-box-shadow:0 0 18px #fff;
+			box-shadow:0 0 18px #fff;
+			cursor: pointer;
+		}
+		._back a{
+			display: block;
+			height: 100%;
+			width: 100%;
+			color: #fff;
+		}
+		.content{
+			position: relative;
+		}
+		#box{
+		    width: 200px;
+		    height: 200px;
+		    margin:200px auto;
+		    position:relative;
+		    transform: perspective(800px) rotateY(-60deg) rotateX(30deg);
+		    transform-style:preserve-3d;
+		    line-height: 200px;
+		    text-align: center;
+		    color: #fff;
+		    font-size:50px;
+		}
+		#box div{
+		    width: 100%;
+		    height: 100%;
+		    position: absolute;
+		    left: 0;
+		    top: 0;
+		    opacity:0.8;
+		}
+		#box .front{
+		    background: red;
+		    transform:translateZ(100px);
 
-    }
-    #box .back{
-        background: yellow;
-        transform:translateZ(-100px) scale(-1,1);
+		}
+		#box .back{
+		    background: yellow;
+		    transform:translateZ(-100px) scale(-1,1);
 
-    }
-    #box .top{
-        background: blue;
-        transform:translateY(-100px) rotateX(90deg);
-    }
-    #box .bottom{
-        background: green;
-        transform:translateY(100px) rotateX(-90deg);
-    }
-    #box .left{
-        background: orange;
-        transform:translateX(-100px) rotateY(-90deg);
-    }
-    #box .right{
-        background: purple;
-        transform:translateX(100px) rotateY(90deg);
-    }
-
-</style>
-<script>
-   window.onload=function(){
+		}
+		#box .top{
+		    background: blue;
+		    transform:translateY(-100px) rotateX(90deg);
+		}
+		#box .bottom{
+		    background: green;
+		    transform:translateY(100px) rotateX(-90deg);
+		}
+		#box .left{
+		    background: orange;
+		    transform:translateX(-100px) rotateY(-90deg);
+		}
+		#box .right{
+		    background: purple;
+		    transform:translateX(100px) rotateY(90deg);
+		}
+	</style>
+	<script>
+		window.onload=function(){
             var oBox=document.getElementById('box');
             var x=30;
             var y=-60;
@@ -85,15 +130,23 @@
                 return false;
             };
         };
-</script>
+	</script>
+</head>
 <body>
-<div id="box">
-    <div class="front">正面</div>
-    <div class="back">背面</div>
-    <div class="top">上面</div>
-    <div class="bottom">下面</div>
-    <div class="left">左面</div>
-    <div class="right">右面</div>
-</div>
+	<header>
+		<div class="logo">JserYuan</div>
+		<div class="title">立方体</div>
+		<div class="_back">
+			<a href="https://jseryuan.github.io">Back</a>
+		</div>
+	</header>
+	<div id="box">
+	    <div class="front">正面</div>
+	    <div class="back">背面</div>
+	    <div class="top">上面</div>
+	    <div class="bottom">下面</div>
+	    <div class="left">左面</div>
+	    <div class="right">右面</div>
+	</div>
 </body>
 </html>

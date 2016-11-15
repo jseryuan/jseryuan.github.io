@@ -1,311 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>jseryuan的个人站</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-
-    <!-- Link Swiper's CSS -->
-    <link rel="stylesheet" href="stylesheets/swiper.min.css">
+	<meta charset="UTF-8">
+	<title>jseryuan</title>
     <link rel="stylesheet" href="stylesheets/base.css">
     <link rel="stylesheet" href="stylesheets/animate.css">
-
-    <!-- Demo styles -->
-    <style>
-    html, body {
-        position: relative;
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-    }
-    body {
-        background: radial-gradient(ellipse farthest-corner at center top, #000d4d 0%, #000105 100%);
-        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-        font-size: 14px;
-        color:#000;
-        margin: 0;
-        padding: 0;
-    }
-    #canv{
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-    .swiper-container {
-        width: 100%;
-        height: 100%;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .swiper-slide {
-        text-align: center;
-        font-size: 18px;
-        color: #fff;
-        position: relative;
-
-        /* Center slide text vertically */
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-    }
-    .nav{
-        width: 200px;
-        position: fixed;
-        top: 50%;
-        left: 50px;
-        z-index: 5;
-        margin-top: -180px;
-    }
-    .nav li{
-        margin-bottom: 20px;
-        cursor: pointer;
-    }
-    .nav .cur span{
-        color: yellow;
-    }
-    .nav li span{
-        font-size: 15px;
-        line-height: 20px;
-        display: block;
-        color: #fff;
-    }
-    #dome{
-        width: 300px;
-        height: 300px;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        margin:-150px 0 0 -150px;
-    }
-    #dome li{
-        width:300px;
-        height:300px;
-        position: absolute;
-        left:0;
-        top: 0;
-        background: skyblue;
-        font-size:50px;
-        color: #fff;
-        line-height: 300px;
-        text-align: center;
-        border: 1px solid #000;
-        transition:0.4s all ease;
-        transform:perspective(800px) translateX(0px) rotateY(0deg);
-    }
-    #dome li a{
-        display: block;
-        width: 100%;
-        height: 100%;
-    }
-    #dome li img{
-        width: 100%;
-        height: 100%;
-    }
-    #dome li.cur{
-        z-index: 5;
-    }
-    #dome li.l1{
-        transform:perspective(800px) translateX(-200px) rotateY(60deg);
-        opacity:0.8;
-        z-index:3;
-    }
-    #dome li.l2{
-        transform:perspective(800px) translateX(-300px) rotateY(60deg);
-        opacity:0;
-        z-index:1;
-    }
-
-    #dome li.r1{
-        transform:perspective(800px) translateX(200px) rotateY(-60deg);
-        opacity:0.8;
-        z-index:3;
-    }
-    #dome li.r2{
-        transform:perspective(800px) translateX(300px) rotateY(-60deg);
-        opacity:0;
-        z-index:1;
-    }
-    #toLeft{
-        position: absolute;
-        top: 250px;
-        left: 210px;
-        width: 0;
-        height: 0;
-        border: 50px solid transparent;
-        border-right: 50px solid skyblue;
-        z-index: 5;
-    }
-    #toRight{
-        position: absolute;
-        top: 250px;
-        right: 210px;
-        width: 0;
-        height: 0;
-        border: 50px solid transparent;
-        border-left: 50px solid skyblue;
-        z-index: 5;
-    }
-    
-    </style>
-    <!-- Swiper JS -->
-    <script src="javascripts/swiper.min.js"></script>
-   
-
-    <!-- Initialize Swiper -->
+    <link rel="stylesheet" href="stylesheets/index.css">
+    <script src="javascripts/jquery-1.7.2.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded',function(){
-            //大轮播图
-            var oNav=document.getElementById('nav');
-            var aLi=oNav.children;
-
-            var swiper = new Swiper('#div1', {
-                pagination: '.swiper-pagination',
-                direction: 'vertical',
-                slidesPerView: 1,
-                paginationClickable: true,
-                spaceBetween: 30,
-                mousewheelControl: true,
-                onSlideChangeStart:function(a){
-                    for(var j=0;j<aLi.length;j++){
-                        aLi[j].className='';
-                    }
-                    aLi[a.activeIndex].className='cur';
-                }
-            });
-            for(var i=0;i<aLi.length;i++){
-                aLi[i].index=i;
-                aLi[i].onclick=function(){
-                    for(var j=0;j<aLi.length;j++){
-                        aLi[j].className='';
-                    }
-                    swiper.slideTo(this.index, 1000, true);
-                    this.className='cur';
-                };
-            }
-            //首页
-
-            //关于我
-
-            //技能
-            //作品轮播图
-            function tab(oBtn1,oBtn2,oUl){
-                var aLi =oUl.children;
-                var aClass = [];
-                for(var i = 0;i<aLi.length;i++){
-                    aClass.push(aLi[i].className);
-                }
-                oBtn1.onclick = function () {
-                    aClass.push(aClass.shift());
-                    for(var i = 0;i<aLi.length;i++){
-                        aLi[i].className = aClass[i];
-                    }
-                };
-                oBtn2.onclick = function () {
-                    aClass.unshift(aClass.pop());
-                    for(var i = 0;i<aLi.length;i++){
-                        aLi[i].className = aClass[i];
-                    }
-                };
-            }
-            (function(){
-                var oBtn1=document.getElementById('toLeft');
-                var oBtn2=document.getElementById('toRight');
-                var oUl=document.getElementById('dome');
-                tab(oBtn1,oBtn2,oUl);
-            })();
-            
-
-        },false);
-        
+    	$(function(){
+    		//顶部menu
+    		$(document).scroll(function(ev){
+    			var t=document.documentElement.scrollTop || document.body.scrollTop;
+    			if(t==0){
+    				$('header').css('background','');
+    			}else{
+    				$('header').css('background','#20181f');
+    			}
+    			
+    		});
+    		//menu
+    		$('.menu li:eq(2)').click(function(){
+    			if(document.documentElement.scrollTop){
+    				document.documentElement.scrollTop=0;
+    			}else{
+    				document.body.scrollTop=0;
+    			}
+    		});
+    	});
     </script>
 </head>
 <body>
-    <canvas id="canv"></canvas>
-    <!-- nav -->
-    <ul class="nav animated bounceInLeft" id="nav">
-        <li class="cur">
-            <span>首页</span>
-            <span>HOME</span>
-        </li> 
-        <!-- <li>
-            <span>关于我</span>
-            <span>ABOUT ME</span>
-        </li> 
-        <li>
-            <span>技能</span>
-            <span>SKILLS</span>
-        </li>  -->
-        <li>
-            <span>作品</span>
-            <span>WORKS</span>
-        </li> 
-        
-        <!-- <li>
-             <span>笔记</span>
-             <span>NOTE</span>
-         </li> --> 
-        <li>
-            <span>联系</span>
-            <span>CONTACT</span>
-        </li> 
-    </ul>
-    <!-- Swiper -->
-    <div class="swiper-container" id="div1">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide page1">
-                <h2 class="animated bounceInDown">Jseryuan的老巢</h2>
-            </div>
-            
-            <div class="swiper-slide">
-                <div id="toLeft"></div>
-                <div id="toRight"></div>
-                <ul id="dome">
-                    <li class="l2">
-                        <a href="https://jseryuan.github.io/dome/cube.html">
-                            <img src="images/cube.png">
-                        </a>
-                    </li>
-                    <li class="l1">
-                        <a href="https://jseryuan.github.io/dome/line.html">
-                            <img src="images/line.png">
-                        </a>
-                       
-                    </li>
-                    <li class="cur">
-                        <a href="https://jseryuan.github.io/music/music.html">
-                            <img src="images/music.png">
-                        </a>
-                    </li>
-                    <li class="r1">
-                        <a href="https://jseryuan.github.io/fish/fish.html">
-                            <img src="images/fish.png">
-                        </a>
-                    </li>
-                    <li class="r2">
-                         <a href="https://jseryuan.github.io/dome/email.html">
-                            <img src="images/email.png">
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="swiper-slide">Slide 2</div>
-            <!-- <div class="swiper-slide">Slide 4</div>
-            <div class="swiper-slide">Slide 5</div>
-            <div class="swiper-slide">Slide 6</div> -->
-        </div>
-    
-    </div>
-
-    
+	<header>
+		<div class="logo">JserYuan</div>
+		<ul class="menu">
+			<li>About</li>
+			<li>Dome</li>
+			<li>Home</li>
+		</ul>
+	</header>
+	<section>
+		<div class="home">
+			<img src="img/home.jpg" alt="">
+			<div class="txt">
+				<h2>The Home Of JserYuan</h2>
+				<p>人生最大的快乐不在于占有什麽，而在于追求什麽的过程。</p>
+			</div>
+		</div>
+		<div class="dome">
+			<h2 class="title">Dome</h2>
+			<p></p>
+			<ul>
+				<li class="pic">
+					<a href="">
+						<img src="img/music.png" alt="">
+					</a>
+				</li>
+				<li class="txt">
+					<h3>音乐盒</h3>
+					<p>运用Html5中aodio的各种方法编写音乐盒。</p>
+				</li>
+				<li class="pic">
+					<a href="dome/3D_tab.html">
+						<img src="img/3D_tab.png" alt="">
+					</a>
+				</li>
+				<li class="txt">
+					<h3>3D轮播图</h3>
+					<p>运用Css3和原生js编写的一个3D轮播图。</p>
+				</li>
+				<li class="pic">
+					<a href="https://github.com/jseryuan/fish">
+						<img src="img/fish.png" alt="">
+					</a>
+				</li>
+				<li class="txt">
+					<h3>捕鱼达人</h3>
+					<p>运用面向对象的思想和canvas标签模拟的一款小游戏。</p>
+				</li>
+				<li class="pic">
+					<a href="dome/cube.html">
+						<img src="img/cube.png" alt="">
+					</a>
+				</li>
+				<li class="txt">
+					<h3>3D立方体</h3>
+					<p>运用css3中的新样式完成的一个可旋转的立方体，请拖动查看。</p>
+				</li>
+				<li class="pic">
+					<a href="dome/b_tab.html">
+						<img src="img/b_tab.png" alt="">
+					</a>
+				</li>
+				<li class="txt">
+					<h3>颗粒爆炸</h3>
+					<p>用js模拟的颗粒爆炸效果。</p>
+				</li>
+				
+			</ul>
+		</div>
+	</section>
+	<footer></footer>
 </body>
- <script src="javascripts/star.js"></script>
 </html>
