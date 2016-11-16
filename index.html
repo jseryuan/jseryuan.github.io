@@ -8,24 +8,48 @@
     <link rel="stylesheet" href="stylesheets/index.css">
     <script src="javascripts/jquery-1.7.2.js"></script>
     <script>
+    	function DoScroll(end){
+            var oS=document.documentElement.scrollTop || document.body.scrollTop;
+            var start=oS;
+            var dis=end-start;
+            var n=0;
+            var count=Math.floor(800/16);
+            var timer=setInterval(function(){
+                n++;
+                if(n==count){
+                    clearInterval(timer);
+                }
+
+                if(navigator.userAgent.toLowerCase().indexOf('chrome')!= -1){
+                    document.body.scrollTop=start+n*dis/count;
+                }else{
+                    document.documentElement.scrollTop=start+n*dis/count;
+                }
+            },16);
+        }
     	$(function(){
     		//顶部menu
+
     		$(document).scroll(function(ev){
+
     			var t=document.documentElement.scrollTop || document.body.scrollTop;
     			if(t==0){
     				$('header').css('background','');
     			}else{
     				$('header').css('background','#20181f');
     			}
-    			
+    			/*if(t>300){
+    				$('.dome .pic').addClass('animated bounceIn');
+    			}else{
+    				$('.dome .pic').removeClass('animated bounceIn');
+    			}*/
     		});
     		//menu
     		$('.menu li:eq(2)').click(function(){
-    			if(document.documentElement.scrollTop){
-    				document.documentElement.scrollTop=0;
-    			}else{
-    				document.body.scrollTop=0;
-    			}
+    			DoScroll(0);
+    		});
+    		$('.menu li:eq(1)').click(function(){
+    			DoScroll(825);
     		});
     	});
     </script>
@@ -42,7 +66,7 @@
 	<section>
 		<div class="home">
 			<img src="img/home.jpg" alt="">
-			<div class="txt">
+			<div class="txt animated fadeInDown">
 				<h2>The Home Of JserYuan</h2>
 				<p>人生最大的快乐不在于占有什麽，而在于追求什麽的过程。</p>
 			</div>
@@ -51,7 +75,7 @@
 			<h2 class="title">Dome</h2>
 			<p></p>
 			<ul>
-				<li class="pic">
+				<li class="pic" >
 					<a href="https://jseryuan.github.io/music/">
 						<img src="img/music.png" alt="">
 					</a>
@@ -70,7 +94,7 @@
 					<p>运用Css3和原生js编写的一个3D轮播图。</p>
 				</li>
 				<li class="pic">
-					<a href="https://github.com/jseryuan/fish">
+					<a href="https://jseryuan.github.io/fish/">
 						<img src="img/fish.png" alt="">
 					</a>
 				</li>
